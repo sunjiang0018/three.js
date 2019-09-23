@@ -44,7 +44,7 @@
  *
  *  for (var i = 0; i < nGeometryGroups; i++) {
  *
- *		var material = new THREE.MeshStandardMaterial({
+ *		var material = new THREE.MeshPhongMaterial({
  *			color: colorMap[i],
  *			wireframe: false
  *		});
@@ -58,11 +58,11 @@
 
 THREE.STLLoader = function ( manager ) {
 
-	this.manager = ( manager !== undefined ) ? manager : THREE.DefaultLoadingManager;
+	THREE.Loader.call( this, manager );
 
 };
 
-THREE.STLLoader.prototype = {
+THREE.STLLoader.prototype = Object.assign( Object.create( THREE.Loader.prototype ), {
 
 	constructor: THREE.STLLoader,
 
@@ -90,13 +90,6 @@ THREE.STLLoader.prototype = {
 			}
 
 		}, onProgress, onError );
-
-	},
-
-	setPath: function ( value ) {
-
-		this.path = value;
-		return this;
 
 	},
 
@@ -399,4 +392,4 @@ THREE.STLLoader.prototype = {
 
 	}
 
-};
+} );

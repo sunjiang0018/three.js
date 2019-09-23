@@ -22,6 +22,16 @@ highp float rand( const in vec2 uv ) {
 	return fract(sin(sn) * c);
 }
 
+#ifdef HIGH_PRECISION
+	float precisionSafeLength( vec3 v ) { return length( v ); }
+#else
+	float max3( vec3 v ) { return max( max( v.x, v.y ), v.z ); }
+	float precisionSafeLength( vec3 v ) {
+		float maxComponent = max3( abs( v ) );
+		return length( v / maxComponent ) * maxComponent;
+	}
+#endif
+
 struct IncidentLight {
 	vec3 color;
 	vec3 direction;
@@ -39,8 +49,8 @@ struct GeometricContext {
 	vec3 position;
 	vec3 normal;
 	vec3 viewDir;
-#ifdef PHYSICAL
-	vec3 clearCoatNormal;
+#ifdef CLEARCOAT
+	vec3 clearcoatNormal;
 #endif
 };
 
@@ -95,6 +105,12 @@ float linearToRelativeLuminance( const in vec3 color ) {
 	vec3 weights = vec3( 0.2126, 0.7152, 0.0722 );
 
 	return dot( weights, color.rgb );
+
+}
+
+bool isPerspectiveMatrix( mat4 projectionMatrix ) {
+
+  return projectionMatrix[ 2 ][ 3 ] == - 1.0;
 
 }
 `;
