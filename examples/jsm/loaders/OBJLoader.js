@@ -655,11 +655,11 @@ var OBJLoader = ( function () {
 
 				var buffergeometry = new BufferGeometry();
 
-				buffergeometry.addAttribute( 'position', new Float32BufferAttribute( geometry.vertices, 3 ) );
+				buffergeometry.setAttribute( 'position', new Float32BufferAttribute( geometry.vertices, 3 ) );
 
 				if ( geometry.normals.length > 0 ) {
 
-					buffergeometry.addAttribute( 'normal', new Float32BufferAttribute( geometry.normals, 3 ) );
+					buffergeometry.setAttribute( 'normal', new Float32BufferAttribute( geometry.normals, 3 ) );
 
 				} else {
 
@@ -670,13 +670,13 @@ var OBJLoader = ( function () {
 				if ( geometry.colors.length > 0 ) {
 
 					hasVertexColors = true;
-					buffergeometry.addAttribute( 'color', new Float32BufferAttribute( geometry.colors, 3 ) );
+					buffergeometry.setAttribute( 'color', new Float32BufferAttribute( geometry.colors, 3 ) );
 
 				}
 
 				if ( geometry.uvs.length > 0 ) {
 
-					buffergeometry.addAttribute( 'uv', new Float32BufferAttribute( geometry.uvs, 2 ) );
+					buffergeometry.setAttribute( 'uv', new Float32BufferAttribute( geometry.uvs, 2 ) );
 
 				}
 
@@ -699,7 +699,6 @@ var OBJLoader = ( function () {
 							var materialLine = new LineBasicMaterial();
 							Material.prototype.copy.call( materialLine, material );
 							materialLine.color.copy( material.color );
-							materialLine.lights = false;
 							material = materialLine;
 
 						} else if ( isPoints && material && ! ( material instanceof PointsMaterial ) ) {
@@ -708,7 +707,6 @@ var OBJLoader = ( function () {
 							Material.prototype.copy.call( materialPoints, material );
 							materialPoints.color.copy( material.color );
 							materialPoints.map = material.map;
-							materialPoints.lights = false;
 							material = materialPoints;
 
 						}
